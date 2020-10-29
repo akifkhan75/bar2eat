@@ -1,0 +1,378 @@
+
+<div  *ngIf="barInfo">
+    <!-- BAR INFO COMPONENT . I MAKE A CALL TO GET BARINFO AND I JUST SHOW IT HERE-->
+    <mat-card >
+        <mat-card-title class="text-left card-title "><h3>{{barInfo?.nombre}} </h3>
+            <mat-card-subtitle>                   
+                <span *ngIf="barInfo.distancia"><b>({{barInfo?.distancia | number : '1.0-2'}} km)</b></span> 
+            </mat-card-subtitle>
+        </mat-card-title>
+        <mat-card-content class="text-left">
+            <div class="inline-flex full-width">
+            <div class="full-width bar-info">
+                <mat-list class="text-left">
+                    <mat-list-item>
+                        <mat-icon matPrefix>my_location</mat-icon>
+                        <p><b>Ubicación: </b><i> <a href="https://www.google.es/maps/">{{barInfo?.direccion}}. {{barInfo?.ciudad}}, {{barInfo?.provincia}}, 
+                            {{barInfo?.codigo_postal}}. </a></i></p>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="barInfo?.direccion_extra">
+                        <mat-icon class="accent">help</mat-icon>
+                        <p ><b>Dirección extra:</b><i> {{barInfo.direccion_extra}}</i></p>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="barInfo?.email">
+                        <mat-icon>email</mat-icon>
+                        <p><b>Email: </b> <a href = "mailto: {{barInfo.email}}"><i>{{barInfo.email}}</i></a></p>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="barInfo?.telefono">
+                        <mat-icon>phone</mat-icon>
+                        <p><b>Teléfono: </b>  <a href = "telf: +34{{barInfo.telefono}}"><i>{{barInfo.telefono}}</i></a></p>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="barInfo?.web">
+                        <mat-icon class="accent">http</mat-icon>
+                        <a href="{{barInfo.web}}"><b>Web: </b><i>{{barInfo.web}}</i></a>
+                    </mat-list-item>
+                    <mat-list-item>  <a href="#" class="social" *ngIf="barInfo?.facebook">
+                        <span [inlineSVG]="'assets/images/icons/facebook.svg'" class="facebook-icon"></span>
+                        </a>
+                        <a href="#" class="social" *ngIf="barInfo?.linkedin">
+                            <span [inlineSVG]="'assets/images/icons/linkedin.svg'" class="linkedin-icon"></span>
+                        </a>
+                        <a href="#" class="social" *ngIf="barInfo?.instagram">
+                            <span [inlineSVG]="'assets/images/icons/instagram.svg'"></span>
+                        </a></mat-list-item>
+                    <mat-divider class="ml-25 width-40"></mat-divider>
+                    
+                    <mat-list-item *ngIf="barInfo.valoraciones && isLogged">
+                    <span>
+                        <ul class="list-inline rating-list " *ngFor="let star of stars;let i= index"    >
+                            <li >
+                                <mat-icon *ngIf="valoracionesDict['general']<i+0.25 || valoracionesDict['general']>i+0.75">{{(valoracionesDict['general'])>i+0.25 ? 'star':'star_border'}}</mat-icon>
+                                <mat-icon *ngIf="valoracionesDict['general']>i+0.25 && valoracionesDict['general']<i+0.75">star_half</mat-icon>
+                            </li> 
+                        </ul> 
+                    </span>
+                        <p><i>({{valoracionesDict['general']}})</i></p>
+                    </mat-list-item>
+                    <mat-list-item *ngIf="!isLogged">
+                        <p><a routerLink="/sign-in" class="accent"> <b><i>Inicia sesión</i></b></a> para poder ver las valoraciones del bar.  </p>
+                    </mat-list-item>
+                    
+                </mat-list>
+            </div>
+
+            <div class="text-rigth">
+                <google-map   width="400px" height="250px" [center] = "center" [options]="options"  [zoom]="zoom" >
+                    <map-marker
+                            [position]="center"
+                            [title]="titleMarker"
+                            [label] = "labelMarker"
+                        >
+                        </map-marker>
+                </google-map>
+            
+            </div>
+            </div>
+        </mat-card-content>
+      </mat-card>
+      
+     <mat-card >
+      
+        <mat-toolbar class="nav-bar" color="primary">
+            <mat-nav-list class="list">    
+                <a mat-list-item routerLink="#About">About </a>
+                <a mat-list-item routerLinkActive="active-link" routerLink="/#About" >Menu del día </a>
+                <a mat-list-item routerLinkActive="active-link" routerLink="#">Carta </a>
+            </mat-nav-list>
+            <span class="spacer"></span>
+            <button mat-icon-button  aria-label="Example icon-button with heart icon" *ngIf="isLogged">
+                <mat-icon matTooltipPosition="above" matTooltip="Guardar en favoritos" (click)="addBarFavoritos();barAddedFavoritos = !barAddedFavoritos" *ngIf="!barAddedFavoritos" >favorite_border</mat-icon>
+                <mat-icon matTooltipPosition="above" matTooltip="Borrar de favoritos" (click)="deleteBarFavorito();barAddedFavoritos = !barAddedFavoritos" *ngIf="barAddedFavoritos">favorite</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Example icon-button with share icon">
+                <mat-icon  matTooltipPosition="above" matTooltip="Compartir bar">share</mat-icon>
+            </button>
+        </mat-toolbar>
+        <mat-card-content>
+            <div class="inline-flex full-width">
+                <div class="width-70">
+                    <mat-card id="About">
+                        <mat-card-title class="text-center font-17">About</mat-card-title>
+                        <mat-card-content>
+                            <p class="text-left" *ngIf="barInfo?.descripcion">{{barInfo.descripcion}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                    <!--DAILY MENU COMPONENT. CHECK IF THERE IS DAILY MENU FOR THIS DAY AND SHOW ITS DISHES (STARTER,MAIN, DESSERTS)-->
+                    <mat-card >
+                        <mat-card-title class="text-center font-17">Menu del día</mat-card-title>
+                        <mat-card-subtitle> 
+                            <mat-form-field appearance="fill" class="text-center ">
+                            <!-- <mat-label>Día</mat-label> -->
+                            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (ngModelChange)="searchMenu()">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker> </mat-form-field>
+                        </mat-card-subtitle>
+                        <mat-card-content *ngIf="menuDelDia">
+                            <mat-list>
+                                <mat-list-item><h4 class="text-left accent">Primeros:</h4></mat-list-item>
+                                <mat-list-item *ngFor="let plato of platos(1); let i = index"> 
+                                    <div  mat-line class="text-left platos-menu ">
+                                            <p><mat-icon >fiber_manual_record</mat-icon><b>{{plato.nombre | titlecase }}</b> 
+                                                <span class="float-r"> <mat-icon *ngFor="let alergeno of plato.alergeno" [matTooltip]="alergeno.alergeno| titlecase">fiber_manual_record</mat-icon> </span>
+                                            </p>
+                                            <p class="font-14" > <i>{{plato.descripcion | titlecase}}</i></p>
+                                    </div>
+                                </mat-list-item>
+                                <mat-list-item><h4 class="text-left accent">Segundos:</h4></mat-list-item>
+                                    <mat-list-item *ngFor="let plato of platos(2); let i = index"> 
+                                        <div  mat-line class="text-left platos-menu ">
+                                            <p><mat-icon >fiber_manual_record</mat-icon><b>{{plato.nombre | titlecase }}</b> 
+                                                <span class="float-r"> <mat-icon *ngFor="let alergeno of plato.alergeno">fiber_manual_record</mat-icon> </span>
+                                            </p>
+                                            <p class="font-14" > <i>{{plato.descripcion | titlecase}}</i></p>
+                                        </div>
+                                    </mat-list-item>
+                                <mat-list-item><h4 class="text-left accent">Postres:</h4></mat-list-item>
+                                <mat-list-item *ngFor="let plato of platos(3); let i = index"> 
+                                    <div  mat-line class="text-left platos-menu ">
+                                        <p><mat-icon >fiber_manual_record</mat-icon><b>{{plato.nombre | titlecase }}</b> 
+                                            <span class="float-r"> <mat-icon *ngFor="let alergeno of plato.alergeno">fiber_manual_record</mat-icon> </span>
+                                        </p>
+                                        <p class="font-14" > <i>{{plato.descripcion | titlecase}}</i></p>
+                                    </div>
+                                </mat-list-item>
+                                <mat-list-item>
+                                    <p  class="margin-auto">{{menuDelDia.anotacion}}</p>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                                <!--ICONS-->
+                                <div class="extra-menu">
+                                    <div class="extra-menu-content">
+                                        <div [matTooltip]="'Pan' + (!menuDelDia.pan? ' no ': ' ') + 'incluído'" class="extra-icon"
+                                            matTooltipClass="custom-tooltip" [ngClass]="{'not-included': !menuDelDia.pan}">
+                                                <span [inlineSVG]="'assets/images/icons/pan.svg'"></span>
+                                        </div>
+                                        <div [matTooltip]="'Bebida' + (!menuDelDia.bebida? ' no ': ' ') + 'incluída'" class="extra-icon"
+                                            matTooltipClass="custom-tooltip" [ngClass]="{'not-included': !menuDelDia.bebida}">
+                                            <span [inlineSVG]="'assets/images/icons/bebida.svg'"></span>
+                                        </div>
+                                        <div [matTooltip]="'Postre' + (!menuDelDia.postre?  ' no ': ' ') + 'incluído'" class="extra-icon"
+                                                matTooltipClass="custom-tooltip" [ngClass]="{'not-included': !menuDelDia.postre}">
+                                                <span [inlineSVG]="'assets/images/icons/postre.svg'"></span>
+                                        </div>
+                                        <div [matTooltip]="'Café' + (!menuDelDia.cafe? ' no ': ' ') + 'incluído'" class="extra-icon"
+                                            matTooltipClass="custom-tooltip" [ngClass]="{'not-included': !menuDelDia.cafe}">
+                                            <span [inlineSVG]="'assets/images/icons/cafe.svg'"></span>
+                                        </div>
+                                    <div *ngIf="menuDelDia" matBadgeColor="accent" class="precio-icon">{{menuDelDia?.precio}}€</div>
+                                </div>
+                                
+                                </div>
+                            </mat-list>
+                        
+                    
+                        
+                        </mat-card-content>
+                        <!--THERE IS NO DAILY MENU FOR THIS DAY-->
+                        <mat-card-content *ngIf="!menuDelDia">
+                            <p>No hay menu del día para la fecha seleccionada.</p>
+                        </mat-card-content>
+                    </mat-card>
+                    <!--MENU COMPONENT-->
+                    <mat-card>
+                            <mat-card-title class="text-center font-17">Carta</mat-card-title>
+                            <mat-card-subttitle>                          
+                                <button mat-flat-button color="accent">Download Menu</button> <!--Download as a pdf-->
+                            </mat-card-subttitle>
+                            <!--CATEGORIES IN THE MENU-->
+                            <mat-accordion class="example-headers-align">
+                                <mat-expansion-panel (opened)="setStep(i)" (click)="orderPlatosCat(categoria)" hideToggle *ngFor="let categoria of categorias_carta;let i=index">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{categoria | titlecase}}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <!--DISHES FOR EACH CATEGORY-->
+                                <mat-accordion class="example-headers-align">
+                                    <mat-expansion-panel (opened)="setStep(j)" hideToggle *ngFor="let plato of platos_ordered;let j=index">
+                                        <mat-expansion-panel-header  (click)="findDishReview(plato)" >
+                                        <mat-panel-title>
+                                            {{plato.nombre}} 
+                                            <span class="ml-15">
+                                                <mat-icon *ngFor=" let alergeno of plato.alergeno"  [matTooltip]="alergeno.alergeno| titlecase"
+                                                    matTooltipPosition="before">fiber_manual_record</mat-icon> 
+                                            </span> 
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            <span class="ml-auto"> <i>{{plato.precio}}€</i></span>
+                                        </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                    
+                                    <p class="text-left" *ngIf="plato.descripcion"><i> {{plato.descripcion}} </i></p>
+                                        <!--DISHES REVIEW-->
+                                        <div *ngIf="plato.valoraciones.length >0 && isLogged">
+                                            <span>
+                                                <!--STARS RATING-->
+                                                <ul class="list-inline rating-list " *ngFor="let star of stars;let i= index"    >
+                                                    <li >
+                                                        <mat-icon *ngIf="plato.media_valoraciones<i+0.25 || plato.media_valoraciones>i+0.75">{{(plato.media_valoraciones)>i+0.25 ? 'star':'star_border'}}</mat-icon>
+                                                        <mat-icon *ngIf="plato.media_valoraciones>i+0.25 && plato.media_valoraciones<i+0.75">star_half</mat-icon>
+                                                    </li> 
+                                                </ul> 
+                                                <i>({{plato.media_valoraciones}})</i> 
+                                            </span>
+                                        
+                                            <p *ngIf="!dishReviewed">Aun no has valorado este plato. Ayuda a otros usuarios y al bar con tu valoración.</p>
+                                            <p *ngIf="dishReviewed">Ya has valorado este plato. ¿Quieres editar tu valoración?</p>
+                                            <div >
+                                                <ul class="list-inline rating-list " *ngFor="let star of stars;let i= index"    >
+                                                    <li (click)="countStar(star)" >
+                                                        <mat-icon class="star-icon" (mouseenter)="paintStar(i)" (mouseleave)="paintStar(-1)" >{{hoverStar[i] || star<=valoracion_plato ? 'star':'star_border'}}</mat-icon>
+                                                    </li> 
+                                                </ul>
+                                                <button mat-flat-button color="accent" (click)="sendDishReview(plato.id)" *ngIf="!dishReviewed">Enviar</button>
+                                                <button mat-flat-button color="accent" (click)="editDishReview(plato)"  *ngIf="dishReviewed">Editar</button>
+                                                <button mat-flat-button color="warn" (click)="deleteDishReview(plato)"  *ngIf="dishReviewed">Borrar</button>
+                                            </div>
+                                        </div>
+                                        <div  *ngIf="plato.valoraciones.length ==0 && isLogged"> 
+                                                <p>Aun no existen valoraciones de este plato. Ayuda a otros usuarios y al bar con tu valoración.</p>
+                                                <div >
+                                                    <ul class="list-inline rating-list " *ngFor="let star of stars;let i= index"    >
+                                                          <!--STARS RATING-->
+                                                        <li (click)="countStar(star)" >
+                                                            <mat-icon class="star-icon" (mouseenter)="paintStar(i)" (mouseleave)="paintStar(-1)" >{{hoverStar[i] || star<=valoracion_plato ? 'star':'star_border'}}</mat-icon>
+                                                        </li> 
+                                                    </ul>
+                                                    <button mat-button color="primary" (click)="sendDishReview(plato.id)">Enviar</button>
+                                                </div>
+                                        </div>
+                                        <div *ngIf="!isLogged">
+                                            <p><a routerLink="/sign-in" class="accent"> <i>Loggin </i></a> to see the reviews.  </p>
+                                        </div>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                            </mat-expansion-panel>
+                        
+                        </mat-accordion>
+                    </mat-card>
+                </div>
+                <div class="width-30">
+                    <!--OPENING TIMES COMPONENT-->
+                    <mat-card>
+                    <mat-card-title class="font-17">Horarios </mat-card-title>
+                    <mat-card-content>
+                        <mat-list>
+                            <mat-list-item class="horarios_times"><mat-icon>schedule</mat-icon>
+                                <b *ngIf="barOpen"> Ahora está abierto</b>
+                                <b *ngIf="!barOpen" style="color:red"> Ahora está cerrado</b>
+                            </mat-list-item>
+                            <mat-list-item *ngFor="let horario of barInfo['horarios'];  let i = index">
+                                <div mat-line class="text-left" >
+                                    <b>{{diasSemana[i]}}</b>:
+                                    
+                                    <i *ngIf="horario.apertura_1 != null && horario.apertura_2 == null "> 
+                                        <span class="float-r"> {{horario.apertura_1 |truncate_time:5 }}-{{horario.cierre_1 |truncate_time:5 }}</span>
+                                    </i>     
+                                    <i *ngIf="horario.apertura_1 != null && horario.apertura_2 != null " > 
+                                        <span class="float-r">{{horario.apertura_1 |truncate_time:5 }}-{{horario.cierre_1 |truncate_time:5 }} ;
+                                            {{horario.apertura_2 |truncate_time:5 }}-{{horario.cierre_2 |truncate_time:5 }}  </span>
+                                    </i>     
+                                    <i *ngIf="horario.apertura_1 == null"> <span class="float-r">Cerrado</span></i>     
+                                    <mat-divider *ngIf="diasSemana[i]!='Domingo'"></mat-divider>
+                                </div>
+                                
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-card-content>
+                    </mat-card>
+                    <!--REVIEWS COMPONENT-->
+                        <!--BAR REVIEWS-->
+                    <mat-card>
+                        <mat-card-title class="font-17">Valoraciones </mat-card-title>
+                        <mat-card-content >
+                            <mat-list>
+                                <mat-list-item *ngFor="let valoraciones of Object.keys(valoracionesDict);  let j = index">
+                                    <div mat-line class="text-left" >
+                                        <b>{{valoraciones | titlecase}}</b>:
+                                        <mat-divider ></mat-divider>
+                                        <span *ngIf="isLogged" >
+                                            <span>
+                                                <ul class="list-inline rating-list " *ngFor="let star of stars;let i= index"    >
+                                                    <li >
+                                                        <mat-icon *ngIf="valoracionesDict[valoraciones]<i+0.25 || valoracionesDict[valoraciones]>i+0.75">{{(valoracionesDict[valoraciones])>i+0.25 ? 'star':'star_border'}}</mat-icon>
+                                                        <mat-icon *ngIf="valoracionesDict[valoraciones]>i+0.25 && valoracionesDict[valoraciones]<i+0.75">star_half</mat-icon>
+                                                    </li> 
+                                                </ul>  
+                                            </span>
+                                            <i>({{valoracionesDict[valoraciones]}})</i>
+                                        </span>
+                                        <a  *ngIf="!isLogged" routerLink="/sign-in" class="accent"> <i>Loggin  </i></a>
+
+                                    </div>
+                                    
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-card-content>
+                    </mat-card>
+                    
+                        <!--MAKE A BAR REVIEW, JUST IF YOU ARE LOGGED-->
+                    <mat-card>
+                        <mat-card-title class="font-17">Deja tu valoración </mat-card-title>
+                        <mat-card-subtitle>Ayuda al bar y al resto de usuarios</mat-card-subtitle>
+                        <mat-card-content>
+                            <mat-list>
+                            <mat-list-item *ngFor="let valoraciones of Object.keys(valoracionesDict) | slice:0:3;  let j = index">
+                                <div mat-line class="text-left" >
+                                    <b>{{valoraciones | titlecase}}</b>:
+                                    <mat-divider ></mat-divider>
+                                    <span>
+                                        <ul class="list-inline rating-list " *ngFor="let star of stars;let i= index"    >
+                                            <li (click)="countStar(star,j)" >
+                                                <mat-icon class="star-icon" (mouseenter)="paintStar(j,i)" (mouseleave)="paintStar(-1)" >{{hoverStar[j][i] || star<=valoraciones_tipos[j] ? 'star':'star_border'}}</mat-icon>
+                                            </li> 
+                                        </ul>                                    
+                                    </span>
+                                </div>
+                            </mat-list-item>
+                            <button mat-raised-button color="accent" class="mt-15"  *ngIf="isLogged && barReviewed"
+                                    matTooltipPosition="above" (click)="editBarReview()"  >Editar</button> 
+                            <button mat-raised-button color="warn" class="mt-15"  *ngIf="isLogged && barReviewed" 
+                                    matTooltipPosition="above" (click)="deleteBarReview()"  >Borrar</button> 
+                            
+                            <button mat-raised-button color="accent" class="mt-15"  *ngIf="isLogged && !barReviewed" 
+                                    matTooltipPosition="above" (click)="sendBarReview()" >Enviar</button>
+                            <button mat-raised-button color="accent" class="mt-15" *ngIf="!isLogged" routerLink="/sign-in" >Loggin</button>
+                            </mat-list>
+                        </mat-card-content>
+                    </mat-card>
+
+                    <!--NEAR BARS COMPONENT-->
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>Otros bares cercanos</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content class="text-left">
+                            <a routerLink="/bar/{{bar.id}}" *ngFor="let bar of baresCercanos| slice:0:3">
+                                <mat-card class="mb-1" class="last-bar-card">
+                                    <mat-card-header>
+                                        <mat-card-title>{{bar.nombre}}   <i> ({{bar.distancia | number : '1.0-2'}} km)</i></mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <p>{{bar.direccion}}, {{bar.ciudad}}. </p>
+                                    </mat-card-content>
+                                </mat-card>
+                            </a>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+            
+        </mat-card-content>
+    </mat-card>
+    <app-footer></app-footer>
+</div>
+<div *ngIf="!barInfo" >
+    <mat-spinner class="margin-auto" color="accent"></mat-spinner>
+    <p>Dame un segundo</p>
+</div>

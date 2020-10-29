@@ -1,0 +1,50 @@
+<mat-toolbar color="primary">
+    <div class="nav-header">
+        <span class="sidebar-toggle" mat-button (click)="sendMessage()"><fa-icon [icon]="['fas', 'bars']"></fa-icon></span>
+        <a routerLink="/"><img src="assets/img/LogoBar2Eat2.png" alt=""></a>
+        <span class="example-spacer"></span>
+        <div class="search-section input-group">
+            <input type="text">
+            <button><fa-icon [icon]="['fas', 'search']"></fa-icon></button>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li>
+                <a href="">Inicio</a>
+            </li>
+            <li>
+                <a href="">Bares</a>
+            </li>
+            <li>
+                <a href="">Quienes somos</a>
+            </li>
+            <li>
+                <a href="">Contacto</a>
+            </li>
+            <li>
+                <a routerLink="/pricing">Precios</a>
+            </li>
+            <li>
+                    <a routerLink="/how-it-works">How it Works</a>
+                </li>
+        </ul>
+    </nav>
+    <div class="curr-user">
+        <button mat-button [matMenuTriggerFor]="menu"><fa-icon [icon]="['fas', 'user']"></fa-icon></button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Account</button>
+            <button mat-menu-item>Log Out</button>
+        </mat-menu>
+    </div>
+</mat-toolbar>
+
+<!-- <mat-sidenav-container class="example-container" [hasBackdrop]="true">
+    <mat-sidenav #sidenav mode="push" [(opened)]="opened">
+        Sidenav content
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <p><button mat-button (click)="sidenav.toggle()">stoggle</button></p>
+    </mat-sidenav-content>
+</mat-sidenav-container> -->

@@ -1,0 +1,285 @@
+$primary-color: #2f3b59;
+$secondary-color: #ffab40;
+
+.banner{
+    height: 450px;
+    background: url('../../../assets/img/sucess-2.jpg');
+    overflow: hidden;
+    background-position: 50% 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    .overlay{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        opacity: .5;
+        // z-index: 1;
+    }
+    &-title{
+        color: #fff;
+        font-size: 3rem;
+        text-align: center;
+        padding: 2rem 0;
+        position: relative;
+        &:after{
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 5px;
+            background: $secondary-color;
+            left: 45%;
+            right: 45%;
+            bottom: 0;
+        }
+    }
+}
+
+.timeline-section{
+    margin-bottom: 2rem;
+    &-title{
+        color: $primary-color;
+        font-size: 2rem;
+        text-align: center;
+        padding: 2rem 0;
+        position: relative;
+        &:after{
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 5px;
+            background: $secondary-color;
+            left: 49%;
+            right: 49%;
+            bottom: 0;
+        }
+    }
+    .timeline {
+        position: relative;
+        width: 100%;
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 15px 0;
+      }
+      
+      .timeline::after {
+        content: '';
+        position: absolute;
+        width: 3px;
+        background: $primary-color;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -2.5px;
+      }
+      
+      .container {
+        padding: 30px 60px;
+        position: relative;
+        background: inherit;
+        width: 50%;
+      }
+      
+      .container.left {
+        left: 0;
+      }
+      
+      .container.right {
+        left: 50%;
+      }
+      
+      .container .icon {
+        position: absolute;
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        top: 30px;
+        right: -30px;
+        padding: 9px 0;
+        background: #ffffff;
+        border: 5px solid $secondary-color;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        color: $secondary-color;
+        z-index: 1;
+      }
+      
+      .container.right .icon {
+        left: -30px;
+      }
+      
+      .container .date {
+        position: absolute;
+        display: inline-block;
+        height: 30px;
+        min-width: 60px;
+        top: 29px;
+        padding: 7px 16px;
+        background: $secondary-color;
+        text-align: center;
+        font-size: 14px;
+        color: #ffffff;
+        z-index: 2;
+      }
+      
+      .container.left .date {
+        right: -36px;
+        border-radius: 30px;
+      }
+      
+      .container.right .date {
+        left: -38px;
+        border-radius: 30px;
+      }
+      
+    //   .container::before {
+    //     content: '';
+    //     position: absolute;
+    //     width: 0;
+    //     height: 0;
+    //     top: 50px;
+    //     right: 28px;
+    //     z-index: 1;
+    //     border: 10px solid;
+    //     border-color: transparent $secondary-color transparent transparent;
+    //   }
+      
+      .container.right::before {
+        left: 28px;
+        border-color: transparent transparent transparent $secondary-color;
+      }
+      
+      .container .content {
+        padding: 30px 45px;
+        background: #ffffff;
+        position: relative;
+        border: 5px solid #eeeeee;
+        border-radius: 50px 0 50px 50px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+      }
+      
+      .container.right .content {
+        border-radius: 0 50px 50px 50px;
+      }
+      
+      .container .content h2 {
+        margin: 0 0 10px 0;
+        font-size: 18px;
+        font-weight: normal;
+        color: $secondary-color;
+      }
+      
+      .container .content p {
+        margin: 0;
+        font-size: 16px;
+        line-height: 22px;
+        color: #454545;
+      }
+      
+      @media (max-width: 767.98px) {
+        .timeline::after {
+          left: 90px;
+        }
+      
+        .container {
+          width: 100%;
+          padding-left: 135px;
+          padding-right: 30px;
+        }
+      
+        .container.right {
+          left: 0%;
+        }
+      
+        .container.left .icon, 
+        .container.right .icon {
+          width: 45px;
+          height: 45px;
+          top: 37.5px;
+          font-size: 18px;
+          left: 67.5px;
+        }
+      
+        .container.left::before,
+        .container.right::before {
+          left: 110px;
+          border-color: transparent transparent transparent $secondary-color;
+        }
+      
+        .container.left .date,
+        .container.right .date {
+          right: auto;
+          left: 15px;
+          border-radius: 30px 0 0 30px;
+        }
+      
+        .container.left .content,
+        .container.right .content {
+          border-radius: 0 50px 50px 50px;
+        }
+      }
+}
+
+.faqs-section{
+    max-width: 1140px;
+    margin: 2rem auto;
+    padding: 2rem;
+    .container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 2rem;
+        .mat-expansion-panel{
+            margin-bottom: .7rem;
+        }
+    }
+    &-title{
+        color: $primary-color;
+        font-size: 2rem;
+        text-align: center;
+        padding: 2rem 0;
+        position: relative;
+        &:after{
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 5px;
+            background: $secondary-color;
+            left: 47.5%;
+            right: 49%;
+            bottom: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 768px){
+    .faqs-section{
+        .container{
+            grid-template-columns: 2fr;
+        }
+    }
+}
+
+.join-community-section{
+    padding: 3rem;
+    background: $secondary-color;
+    color: #fff;
+    .container{
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 1rem 0;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        align-items: center;
+        h1{
+            font-size: 2.5rem;
+        }
+        button{
+            padding: 10px 7px;
+            font-size: 1.2rem;
+        }
+    }
+}

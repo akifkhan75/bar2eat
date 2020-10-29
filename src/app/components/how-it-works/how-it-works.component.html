@@ -1,0 +1,125 @@
+<mat-sidenav-container class="example-container" [hasBackdrop]="true">
+        <mat-sidenav class="sidebar" #sidenav mode="over" [(opened)]="opened">
+                <app-sidebar></app-sidebar>
+            </mat-sidenav>
+
+    <mat-sidenav-content>
+        <app-header (messageEvent)="receiveMessage($event)"></app-header>
+
+        <div class="banner">
+                <div class="overlay"></div>
+                <div class="banner-title">How It Works</div>
+            </div>
+
+        <section class="timeline-section">
+                <h1 class="timeline-section-title">Steps to improve your business</h1>
+                <div class="timeline">
+                        <div class="container left">
+                          <div class="date">Step 1</div>
+                          <div class="content">
+                            <h2>Lorem ipsum dolor sit amet</h2>
+                            <p>
+                              Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non
+                            </p>
+                          </div>
+                        </div>
+                        <div class="container right">
+                          <div class="date">Step 2</div>
+                          <div class="content">
+                            <h2>Lorem ipsum dolor sit amet</h2>
+                            <p>
+                              Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non
+                            </p>
+                          </div>
+                        </div>
+                        <div class="container left">
+                          <div class="date">Step 3</div>
+                          <div class="content">
+                            <h2>Lorem ipsum dolor sit amet</h2>
+                            <p>
+                              Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non
+                            </p>
+                          </div>
+                        </div>
+                        <div class="container right">
+                          <div class="date">Step 4</div>
+                          <div class="content">
+                            <h2>Lorem ipsum dolor sit amet</h2>
+                            <p>
+                              Lorem ipsum dolor sit amet elit. Aliquam odio dolor, id luctus erat sagittis non
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+        </section>
+
+        <section class="faqs-section">
+                <h1 class="faqs-section-title">FAQ's</h1>
+                <div class="container">
+                        <mat-accordion>
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Question 1
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <p>I'm visible because I am open</p>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                                Question 2
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <p>I'm visible because I am open</p>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                                Question 3
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <p>I'm visible because I am open</p>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+                            <mat-accordion>
+                                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                    Question 4
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <p>I'm visible because I am open</p>
+                                    </mat-expansion-panel>
+                                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                    Question 5
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <p>I'm visible because I am open</p>
+                                    </mat-expansion-panel>
+                                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                    Question 6
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <p>I'm visible because I am open</p>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                </div>
+        </section>
+
+        <section class="join-community-section">
+            <div class="container">
+                <div>
+                        <h1>Join our Community</h1>
+                        <p>Grow your marketing and be happy with your online business</p>
+                </div>
+                <button mat-raised-button>Sign up</button>
+            </div>
+        </section>
+        
+    </mat-sidenav-content>
+</mat-sidenav-container>
