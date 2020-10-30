@@ -26,7 +26,7 @@ button.mat-primary{
     padding: 2rem;
     .map-section{
         display: grid;
-        grid-template-columns: 1fr 3fr 4fr;
+        grid-template-columns: 3fr 1fr 3fr;
         grid-gap: 1rem;
         grid-auto-rows: 450px;
         overflow: hidden;

@@ -17,10 +17,12 @@ export class RestaurantDetailsComponent implements OnInit  {
   ngOnInit(): void {
   }
 
-  
-
   receiveMessage($event) {
     this.opened = $event
+  }
+
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
   }
 
 }

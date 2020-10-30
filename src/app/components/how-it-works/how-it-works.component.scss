@@ -80,40 +80,23 @@ $secondary-color: #ffab40;
         padding: 30px 60px;
         position: relative;
         background: inherit;
-        width: 50%;
+        // width: 50%;
+        display: grid;
+        grid-template-columns: 3fr 1fr 3fr;
+        grid-gap: 2rem;
       }
       
-      .container.left {
-        left: 0;
-      }
+      // .container.left {
+      //   left: 0;
+      // }
       
-      .container.right {
-        left: 50%;
-      }
+      // .container.right {
+      //   left: 50%;
+      // }
       
-      .container .icon {
-        position: absolute;
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-        top: 30px;
-        right: -30px;
-        padding: 9px 0;
-        background: #ffffff;
-        border: 5px solid $secondary-color;
-        border-radius: 50px;
-        text-align: center;
-        font-size: 30px;
-        color: $secondary-color;
-        z-index: 1;
-      }
-      
-      .container.right .icon {
-        left: -30px;
-      }
       
       .container .date {
-        position: absolute;
+        // position: absolute;
         display: inline-block;
         height: 30px;
         min-width: 60px;
@@ -124,6 +107,7 @@ $secondary-color: #ffab40;
         font-size: 14px;
         color: #ffffff;
         z-index: 2;
+        border-radius: 30px;;
       }
       
       .container.left .date {
@@ -158,12 +142,28 @@ $secondary-color: #ffab40;
         background: #ffffff;
         position: relative;
         border: 5px solid #eeeeee;
-        border-radius: 50px 0 50px 50px;
         box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+        img{
+          width: 100%;
+        }
+      }
+
+      .container .content-left{
+        border-radius: 50px 0 50px 50px;
+        img{
+          border-radius: 50px 0 50px 50px;
+        }
       }
       
-      .container.right .content {
+      .container .content-right {
         border-radius: 0 50px 50px 50px;
+        img{
+          border-radius: 0 50px 50px 50px;
+        }
+      }
+
+      .container .img-content{
+        padding: 0;
       }
       
       .container .content h2 {
@@ -180,48 +180,79 @@ $secondary-color: #ffab40;
         color: #454545;
       }
       
-      @media (max-width: 767.98px) {
-        .timeline::after {
-          left: 90px;
+      @media (max-width: 768px) {
+        &-title:after{
+          left: 44%;
+        }
+        .timeline{
+            &:after{
+              margin: 0;
+              z-index: -1;
+            }
+            // div:nth-of-type(1){
+            //   order: 0;
+            // }
+            .container{
+              grid-template-columns: 1fr;
+              .date{
+                order: 1;
+              }
+              .text-content{
+                order: 2;
+              }
+              .img-content{
+                order: 3;
+              }
+              .content{
+                border-radius: 10px;
+                img{
+                  border-radius: 10px;
+                }
+              }
+            }
         }
       
-        .container {
-          width: 100%;
-          padding-left: 135px;
-          padding-right: 30px;
-        }
-      
-        .container.right {
-          left: 0%;
-        }
-      
-        .container.left .icon, 
-        .container.right .icon {
-          width: 45px;
-          height: 45px;
-          top: 37.5px;
-          font-size: 18px;
-          left: 67.5px;
-        }
-      
-        .container.left::before,
-        .container.right::before {
-          left: 110px;
-          border-color: transparent transparent transparent $secondary-color;
-        }
-      
-        .container.left .date,
-        .container.right .date {
-          right: auto;
-          left: 15px;
-          border-radius: 30px 0 0 30px;
-        }
-      
-        .container.left .content,
-        .container.right .content {
-          border-radius: 0 50px 50px 50px;
+      }
+}
+
+.video-section{
+  background: $primary-color;
+  color: #fff;
+  padding: 2rem 0;
+  margin-top: 3rem;
+  .container{
+    max-width: 1140px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+    align-items: center;
+    .text{
+      h2{
+        font-size: 2.2rem;
+        margin-top: 0;
+      }
+      p{
+        margin-bottom: 1.5rem;
+      }
+      button{
+        padding: .7rem 1.5rem;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px){
+    .container{
+      grid-template-columns: 1fr;
+      padding: 1rem;
+      .text{
+        text-align: center;
+        h2,p{
+          text-align: center;
         }
       }
+    }
+  }
 }
 
 .faqs-section{
